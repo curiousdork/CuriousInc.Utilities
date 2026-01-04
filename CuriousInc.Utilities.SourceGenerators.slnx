@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Misc/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="src\CuriousInc.Source.Generators.Utilities\CuriousInc.Source.Generators.Utilities.csproj" />
+</Solution>
