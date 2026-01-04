@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CuriousInc.Source.Generators.Utilities.Models;
+using CuriousInc.Utilities.Source.Generators.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace CuriousInc.Source.Generators.Utilities;
+namespace CuriousInc.Utilities.Source.Generators;
 
 [Generator]
 public sealed class ValueObjectGenerator : IIncrementalGenerator
@@ -16,7 +16,7 @@ public sealed class ValueObjectGenerator : IIncrementalGenerator
 
     private const string AttributeCode = $$"""
                                          using System;
-                                         namespace Headquarters.Utilities.SourceGenerators.Attributes;
+                                         namespace CuriousInc.Utilities.Source.Generators.Attributes;
                                          
                                          [AttributeUsage(AttributeTargets.Class)]
                                          public sealed class {{AttributeName}} : Attribute;
@@ -106,7 +106,7 @@ public sealed class ValueObjectGenerator : IIncrementalGenerator
                           using System.Diagnostics.CodeAnalysis;
                           using System.Text.Json;
                           using System.Text.Json.Serialization;
-                          using Headquarters.Utilities.SourceGenerators.Attributes;
+                          using CuriousInc.Utilities.Source.Generators.Attributes;
                           """);
             sb.AppendLine();
 

@@ -1,4 +1,4 @@
-namespace CuriousInc.Source.Generators.Utilities.Models;
+namespace CuriousInc.Utilities.Source.Generators.Models;
 
 public class GenerateSource
 {

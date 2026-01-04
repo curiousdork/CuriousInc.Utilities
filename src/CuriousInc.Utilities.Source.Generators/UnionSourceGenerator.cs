@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using System.Text;
-using CuriousInc.Source.Generators.Utilities.Models;
+using CuriousInc.Utilities.Source.Generators.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace CuriousInc.Source.Generators.Utilities;
+namespace CuriousInc.Utilities.Source.Generators;
 
 [Generator]
 public class UnionSourceGenerator : IIncrementalGenerator
@@ -16,7 +16,7 @@ public class UnionSourceGenerator : IIncrementalGenerator
 
     private const string AttributeCode = $"""
                                           using System;
-                                          namespace Headquarters.Utilities.SourceGenerators.Attributes;
+                                          namespace CuriousInc.Utilities.Source.Generators.Attributes;
 
                                           [AttributeUsage(AttributeTargets.Struct)]
                                           public sealed class UnionTypeAttribute : Attribute;
@@ -104,7 +104,7 @@ public class UnionSourceGenerator : IIncrementalGenerator
                           using System.Diagnostics.CodeAnalysis;
                           using System.Text.Json;
                           using System.Text.Json.Serialization;
-                          using Headquarters.Utilities.SourceGenerators.Attributes;
+                          using CuriousInc.Utilities.Source.Generators.Attributes;
                           """);
             sb.AppendLine();
 

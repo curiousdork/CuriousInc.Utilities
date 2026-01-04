@@ -1,8 +1,8 @@
 using System.Text;
-using CuriousInc.Source.Generators.Utilities.Models;
+using CuriousInc.Utilities.Source.Generators.Models;
 using Microsoft.CodeAnalysis;
 
-namespace CuriousInc.Source.Generators.Utilities;
+namespace CuriousInc.Utilities.Source.Generators;
 
 public class StronglyTypedIdGeneratorBase
 {
@@ -10,7 +10,7 @@ public class StronglyTypedIdGeneratorBase
 
     protected const string AttributeCode = $"""
                                             using System;
-                                            namespace Headquarters.Utilities.SourceGenerators.Attributes;
+                                            namespace CuriousInc.Utilities.Source.Generators.Attributes;
 
                                             [AttributeUsage(AttributeTargets.Struct)]
                                             public sealed class StronglyTypedIdAttribute : Attribute;
@@ -20,7 +20,7 @@ public class StronglyTypedIdGeneratorBase
 
     protected const string InterfaceCode = """
                                            using System;
-                                           namespace Headquarters.Utilities.SourceGenerators.Attributes;
+                                           namespace CuriousInc.Utilities.Source.Generators.Attributes;
                                            
                                            public interface IStronglyTypedId<T> where T : struct
                                            {
@@ -31,7 +31,7 @@ public class StronglyTypedIdGeneratorBase
     protected const string ICreatableInterface = $$"""
 
                                                    using System;
-                                                   namespace Headquarters.Utilities.SourceGenerators.Attributes;
+                                                   namespace CuriousInc.Utilities.Source.Generators.Attributes;
                                                    
                                                    public interface ICreatable<TSelf> where TSelf : ICreatable<TSelf>
                                                    {
@@ -82,7 +82,7 @@ public class StronglyTypedIdGeneratorBase
                           using System.Diagnostics.CodeAnalysis;
                           using System.Text.Json;
                           using System.Text.Json.Serialization;
-                          using Headquarters.Utilities.SourceGenerators.Attributes;
+                          using CuriousInc.Utilities.Source.Generators.Attributes;
                           """);
             sb.AppendLine();
             

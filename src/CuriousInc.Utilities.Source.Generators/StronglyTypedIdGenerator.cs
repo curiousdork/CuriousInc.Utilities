@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Text;
-using CuriousInc.Source.Generators.Utilities.Models;
+using CuriousInc.Utilities.Source.Generators.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace CuriousInc.Source.Generators.Utilities;
+namespace CuriousInc.Utilities.Source.Generators;
 
 [Generator]
 public class StronglyTypedIdGenerator : StronglyTypedIdGeneratorBase, IIncrementalGenerator

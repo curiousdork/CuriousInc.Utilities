@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace CuriousInc.Source.Generators.Utilities.Models;
+namespace CuriousInc.Utilities.Source.Generators.Models;
 
 public class SyntaxProviderCandidate
 {
