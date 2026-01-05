@@ -3,6 +3,8 @@
     <File Path=".gitignore" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="CuriousInc.Common.Functional/CuriousInc.Common.Functional.csproj" />
-  <Project Path="src\CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" />
+  <Folder Name="/Library/">
+    <Project Path="src\CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" />
+    <Project Path="src/CuriousInc.Common.Functional/CuriousInc.Common.Functional.csproj" />
+  </Folder>
 </Solution>

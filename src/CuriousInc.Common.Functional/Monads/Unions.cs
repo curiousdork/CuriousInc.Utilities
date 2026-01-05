@@ -1,5 +1,3 @@
-using CuriousInc.Utilities.Source.Generators.Attributes;
-
 namespace CuriousInc.Common.Functional.Monads;
 
 [UnionType]
