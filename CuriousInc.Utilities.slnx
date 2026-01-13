@@ -2,6 +2,7 @@
   <Folder Name="/Misc/">
     <File Path=".gitignore" />
     <File Path="README.md" />
+    <File Path=".github/workflows/build.yml" />
   </Folder>
   <Folder Name="/Library/">
     <Project Path="src\CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" />
