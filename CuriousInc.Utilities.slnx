@@ -5,7 +5,7 @@
     <File Path=".github/workflows/build.yml" />
   </Folder>
   <Folder Name="/Library/">
-    <Project Path="src\CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" />
+    <Project Path="src/CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" />
     <Project Path="src/CuriousInc.Common.Functional/CuriousInc.Common.Functional.csproj" />
   </Folder>
 </Solution>

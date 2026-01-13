@@ -20,11 +20,11 @@ jobs:
           dotnet-version: '10.0.x'
 
       # Build and pack your project(s)
-      - name: Pack
-        run: dotnet pack CuriousInc.Utilities.Source.Generators -c Release --output artifacts
+      - name: Pack Source Generator
+        run: dotnet pack src/CuriousInc.Utilities.Source.Generators -c Release --output artifacts
         
-      - name: Pack
-        run: dotnet pack CuriousInc.Common.Functional -c Release --output artifacts
+      - name: Pack Functional Library
+        run: dotnet pack src/CuriousInc.Common.Functional -c Release --output artifacts
 
       # Exchange GitHub OIDC for a short-lived NuGet API key
       - name: NuGet login (OIDC → temp API key)
