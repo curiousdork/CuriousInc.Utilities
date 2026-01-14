@@ -1,14 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <LangVersion>latest</LangVersion>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+
+        <IsPackable>true</IsPackable>
+        <PackageId>CuriousInc.Common.Functional</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Curious Inc.</Authors>
+        <Company>Curious Inc.</Company>
+        <Description>Functional primitives and value objects shared across Curious Inc. services.</Description>
+        <PackageTags>functional;ddd;utilities</PackageTags>
+        <RepositoryUrl>https://github.com/curiousdork/CuriousInc.Utilities</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageProjectUrl>https://github.com/curiousdork/CuriousInc.Utilities</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <IncludeSource>true</IncludeSource>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+        <ProjectReference Include="..\CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj"
+                          ReferenceOutputAssembly="false"
+                          OutputItemType="Analyzer" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
 </Project>

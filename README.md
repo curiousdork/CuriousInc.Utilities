@@ -9,3 +9,4 @@ CuriousInc.Utilities is a collection of reusable .NET helpers that target modern
 - 📦 Published as NuGet packages for easy consumption across projects.
 
 ## Getting Started
+
