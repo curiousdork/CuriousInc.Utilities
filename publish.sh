@@ -12,9 +12,9 @@ SOURCE_GENERATOR_PROJECT="${ROOT_DIR}/src/CuriousInc.Utilities.Source.Generators
 command -v dotnet >/dev/null || { echo "dotnet CLI is required"; exit 1; }
 : "${NUGET_API_KEY:?Set NUGET_API_KEY before running this script}"
 
-echo "==> Cleaning artifacts directory"
-rm -rf "${ARTIFACTS_DIR}"
-mkdir -p "${ARTIFACTS_DIR}"
+#echo "==> Cleaning artifacts directory"
+#rm -rf "${ARTIFACTS_DIR}"
+#mkdir -p "${ARTIFACTS_DIR}"
 
 build_project() {
  local project="$1"
@@ -63,18 +63,29 @@ write_version() {
  mv "${tmp}" "${file}"
 }
 
+echo $ROOT_DIR
+
 echo "==> Building projects"
 build_project "${PACK_PROJECT}"
 build_project "${SOURCE_GENERATOR_PROJECT}"
 
-echo "==> Incrementing version (${BUMP_KIND}) in ${PACK_PROJECT}"
-CURRENT_VERSION="$(extract_version "${PACK_PROJECT}")"
-NEW_VERSION="$(bump_version "${CURRENT_VERSION}" "${BUMP_KIND}")"
-write_version "${PACK_PROJECT}" "${NEW_VERSION}"
-echo "==> New version: ${NEW_VERSION}"
+#echo "==> Incrementing version (${BUMP_KIND}) in ${PACK_PROJECT}"
+#CURRENT_VERSION="$(extract_version "${PACK_PROJECT}")"
+#NEW_VERSION="$(bump_version "${CURRENT_VERSION}" "${BUMP_KIND}")"
+#write_version "${PACK_PROJECT}" "${NEW_VERSION}"
+#echo "==> New version: ${NEW_VERSION}"
 
 echo "==> Packing ${PACK_PROJECT}"
 dotnet pack "${PACK_PROJECT}" -c Release -o "${ARTIFACTS_DIR}" /p:ContinuousIntegrationBuild=true
+
+echo "==> Incrementing version (${BUMP_KIND}) in ${SOURCE_GENERATOR_PROJECT}"
+SOURCE_GEN_VERSION="$(extract_version "${SOURCE_GENERATOR_PROJECT}")"
+SOURCE_GEN_NEW_VERSION="$(bump_version "${SOURCE_GEN_VERSION}" "${BUMP_KIND}")"
+write_version "${SOURCE_GENERATOR_PROJECT}" "${SOURCE_GEN_NEW_VERSION}"
+echo "==> New version: ${SOURCE_GEN_NEW_VERSION}"
+
+echo "==> Packing ${SOURCE_GENERATOR_PROJECT}"
+dotnet pack "${SOURCE_GENERATOR_PROJECT}" -c Release -o "${ARTIFACTS_DIR}" /p:ContinuousIntegrationBuild=true
 
 echo "==> Publishing packages to NuGet"
 shopt -s nullglob

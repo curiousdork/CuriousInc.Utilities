@@ -8,7 +8,7 @@
         <IncludeBuildOutput>true</IncludeBuildOutput>
         <IsRoslynComponent>true</IsRoslynComponent>
         <PackageId>CuriousInc.Utilities.Source.Generators</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.4</Version>
         <Authors>Curious Inc.</Authors>
         <Company>Curious Inc.</Company>
         <Description>Contains source generators for DDD and functional utilities.</Description>
