@@ -1,23 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+<!--    <PropertyGroup>-->
+<!--        <TargetFramework>netstandard2.0</TargetFramework>-->
+<!--        <Nullable>enable</Nullable>-->
+<!--        <LangVersion>latest</LangVersion>-->
+<!--        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>-->
+<!--        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
+<!--        <IncludeBuildOutput>true</IncludeBuildOutput>-->
+<!--        <IsRoslynComponent>true</IsRoslynComponent>-->
+<!--        <PackageId>CuriousInc.Utilities.Source.Generators</PackageId>-->
+<!--        <Version>1.0.9</Version>-->
+<!--        <Authors>Curious Inc.</Authors>-->
+<!--        <Company>Curious Inc.</Company>-->
+<!--        <Description>Contains source generators for DDD and functional utilities.</Description>-->
+<!--        <PackageTags>source generator;utilities</PackageTags>-->
+<!--        <RepositoryUrl>https://github.com/curiousdork/CuriousInc.Utilities</RepositoryUrl>-->
+<!--        <RepositoryType>git</RepositoryType>-->
+<!--        <PackageProjectUrl>https://github.com/curiousdork/CuriousInc.Utilities</PackageProjectUrl>-->
+<!--        <PackageLicenseExpression>MIT</PackageLicenseExpression>-->
+<!--        <PackageReadmeFile>README.md</PackageReadmeFile>-->
+<!--    </PropertyGroup>-->
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
         <Nullable>enable</Nullable>
+        <Version>1.0.9</Version>
+        <Description>Generates utilities for CuriousInc projects.</Description>
         <LangVersion>latest</LangVersion>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <IncludeBuildOutput>true</IncludeBuildOutput>
-        <IsRoslynComponent>true</IsRoslynComponent>
-        <PackageId>CuriousInc.Utilities.Source.Generators</PackageId>
-        <Version>1.0.4</Version>
-        <Authors>Curious Inc.</Authors>
-        <Company>Curious Inc.</Company>
-        <Description>Contains source generators for DDD and functional utilities.</Description>
-        <PackageTags>source generator;utilities</PackageTags>
-        <RepositoryUrl>https://github.com/curiousdork/CuriousInc.Utilities</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageProjectUrl>https://github.com/curiousdork/CuriousInc.Utilities</PackageProjectUrl>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +37,8 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="\" />
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
+
 
 </Project>

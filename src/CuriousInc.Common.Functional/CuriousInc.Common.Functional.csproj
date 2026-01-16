@@ -7,7 +7,7 @@
         <LangVersion>latest</LangVersion>
         <IsPackable>true</IsPackable>
         <PackageId>CuriousInc.Common.Functional</PackageId>
-        <Version>1.0.12</Version>
+        <Version>1.0.16</Version>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <CompilerGeneratedFilesOutputPath>$(MSBuildProjectDirectory)\Monads</CompilerGeneratedFilesOutputPath>
         <Authors>Curious Inc.</Authors>
