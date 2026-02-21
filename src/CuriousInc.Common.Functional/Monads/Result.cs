@@ -2,7 +2,7 @@ namespace CuriousInc.Common.Functional.Monads;
 
 public readonly record struct Result<T>
 {
-    private readonly Error? _error = default;
+    private readonly Error? _error = null;
     private readonly T? _value = default;
 
     private Result(Error error) => _error = error;
@@ -11,7 +11,7 @@ public readonly record struct Result<T>
 
     public static Result<T> Ok(T? value) => value switch
     {
-        null => new Result<T>(Error.New($"{nameof(value)} is null", ErrorType.IsNull)),
+        null => new Result<T>(new Error()),
         _ => new Result<T>(value)
     };
     public static Result<T> Fail(Error error) => new(error);

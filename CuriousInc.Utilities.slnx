@@ -9,4 +9,5 @@
     <Project Path="src/CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" />
     <Project Path="src/CuriousInc.Common.Functional/CuriousInc.Common.Functional.csproj" />
   </Folder>
+  <Project Path="src/tests/CuriousInc.Common.Functional.Tests/CuriousInc.Common.Functional.Tests.csproj" />
 </Solution>
