@@ -45,9 +45,8 @@ public readonly record struct Result<T>
 
     /// <summary>
     /// Gets value indicating whether result currently contains failure value.
-    /// Use this with caution until implementation semantics are corrected to reflect <see cref="_error"/>.
     /// </summary>
-    public bool IsLeft => _value is not null;
+    public bool IsLeft => _error is not null;
 
     /// <summary>
     /// Pattern matches success and failure outcomes.
@@ -85,5 +84,5 @@ public readonly record struct Result<T>
     /// Returns readable representation of success or failure value.
     /// </summary>
     /// <returns>String form of contained value or error.</returns>
-    public override string ToString() => Match(v => v.ToString(), e => e.ToString());
+    public override string ToString() => Match(v => v?.ToString() ?? string.Empty, e => e.ToString());
 }
