@@ -23,7 +23,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <Nullable>enable</Nullable>
-        <Version>1.0.9</Version>
+        <Version>1.0.10</Version>
         <Description>Generates utilities for CuriousInc projects.</Description>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
