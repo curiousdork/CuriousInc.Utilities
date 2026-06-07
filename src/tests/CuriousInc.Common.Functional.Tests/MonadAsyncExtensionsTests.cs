@@ -5,6 +5,71 @@ namespace CuriousInc.Common.Functional.Tests;
 
 public class MonadAsyncExtensionsTests
 {
+    private sealed class RequestOtp;
+
+    [Fact]
+    public async Task ToAsync_WrapsPlainValueInTask()
+    {
+        var request = new RequestOtp();
+
+        var result = await request.ToAsync();
+
+        Assert.Same(request, result);
+    }
+
+    [Fact]
+    public async Task ToAsync_WrapsOptionInTask()
+    {
+        Option<int> option = 5;
+
+        var result = await option.ToAsync();
+
+        Assert.True(result.TryGetValue(out var value));
+        Assert.Equal(5, value);
+    }
+
+    [Fact]
+    public async Task ToAsync_AdaptsEnumerableToAsyncEnumerable()
+    {
+        IEnumerable<int> values = new[] { 1, 2, 3 };
+        var results = new List<int>();
+
+        await foreach (var item in ToAsyncExtensions.ToAsync(values, CancellationToken.None))
+        {
+            results.Add(item);
+        }
+
+        Assert.Equal(values, results);
+    }
+
+    [Fact]
+    public async Task ToAsync_Enumerable_RespectsCancellation()
+    {
+        IEnumerable<int> values = new[] { 1, 2, 3 };
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+        {
+            await foreach (var _ in ToAsyncExtensions.ToAsync(values, cts.Token))
+            {
+            }
+        });
+    }
+
+    [Fact]
+    public async Task OptionMatchAsync_DefaultNullCancellationToken_Works()
+    {
+        Option<int> option = 5;
+
+        var result = await option.MatchAsync(
+            (value, ct) => Task.FromResult(value * 2),
+            ct => Task.FromResult(0),
+            null);
+
+        Assert.Equal(10, result);
+    }
+
     [Fact]
     public async Task OptionMatchAsync_UsesSomeBranch()
     {
@@ -65,6 +130,24 @@ public class MonadAsyncExtensionsTests
     }
 
     [Fact]
+    public async Task ResultMapAsync_PassesCancellationTokenToMapper()
+    {
+        Result<int> result = 7;
+        using var cts = new CancellationTokenSource();
+
+        var mapped = await result.MapAsync(
+            (value, ct) =>
+            {
+                Assert.Equal(cts.Token, ct);
+                return Task.FromResult(value * 2);
+            },
+            cts.Token);
+
+        Assert.True(mapped.TryGetValue(out var value));
+        Assert.Equal(14, value);
+    }
+
+    [Fact]
     public async Task ResultBindAsync_PreservesFailure()
     {
         var error = new Error();
@@ -98,5 +181,37 @@ public class MonadAsyncExtensionsTests
 
         Assert.True(result.TryGetValue(out int updated));
         Assert.Equal(6, updated);
+    }
+
+    [Fact]
+    public async Task UnionApplyAsync_PassesCancellationTokenToFunctor()
+    {
+        Union<int, string> union = 5;
+        using var cts = new CancellationTokenSource();
+
+        var result = await union.ApplyUnionAsync(
+            (int value, CancellationToken ct) =>
+            {
+                Assert.Equal(cts.Token, ct);
+                return Task.FromResult<Union<int, string>>(value + 1);
+            },
+            cts.Token);
+
+        Assert.True(result.TryGetValue(out int updated));
+        Assert.Equal(6, updated);
+    }
+
+    [Fact]
+    public async Task MatchAsync_CancelledToken_ThrowsBeforeInvokingBranch()
+    {
+        Option<int> option = 5;
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            option.MatchAsync(
+                (value, ct) => Task.FromResult(value),
+                ct => Task.FromResult(0),
+                cts.Token));
     }
 }

@@ -25,10 +25,42 @@ build_project() {
 
 extract_version() {
  local file="$1"
- local line
- line="$(grep -m1 '<Version>' "${file}" | tr -d '[:space:]')"
- [[ -n "${line}" ]] || { echo "Could not find <Version> in ${file}" >&2; exit 1; }
- echo "${line}" | sed -E 's|.*<Version>([^<]+)</Version>.*|\1|'
+ awk '
+   BEGIN { in_comment = 0 }
+   {
+     line = $0
+
+     if (in_comment) {
+       if (line ~ /-->/) {
+         sub(/^.*-->/, "", line)
+         in_comment = 0
+       } else {
+         next
+       }
+     }
+
+     while (line ~ /<!--/) {
+       prefix = substr(line, 1, RSTART - 1)
+       comment_rest = substr(line, RSTART + RLENGTH)
+
+       if (comment_rest ~ /-->/) {
+         suffix = substr(comment_rest, index(comment_rest, "-->") + 3)
+         line = prefix suffix
+       } else {
+         line = prefix
+         in_comment = 1
+         break
+       }
+     }
+
+     if (match(line, /<Version>[^<]+<\/Version>/)) {
+       version = substr(line, RSTART, RLENGTH)
+       gsub(/^<Version>|<\/Version>$/, "", version)
+       print version
+       exit
+     }
+   }
+ ' "${file}"
 }
 
 bump_version() {
@@ -52,12 +84,41 @@ write_version() {
  local file="$1" new_version="$2" tmp
  tmp="$(mktemp)"
  awk -v new_version="${new_version}" '
+   BEGIN { in_comment = 0 }
    {
-     if (!done && match($0, /<Version>[^<]+<\/Version>/)) {
-       sub(/<Version>[^<]+<\/Version>/, "<Version>" new_version "</Version>")
-       done = 1
+     line = $0
+
+     if (!done && !in_comment) {
+       candidate = line
+
+       while (candidate ~ /<!--/) {
+         prefix = substr(candidate, 1, RSTART - 1)
+         comment_rest = substr(candidate, RSTART + RLENGTH)
+
+         if (comment_rest ~ /-->/) {
+           suffix = substr(comment_rest, index(comment_rest, "-->") + 3)
+           candidate = prefix suffix
+         } else {
+           candidate = prefix
+           break
+         }
+       }
+
+       if (match(candidate, /<Version>[^<]+<\/Version>/)) {
+         sub(/<Version>[^<]+<\/Version>/, "<Version>" new_version "</Version>", line)
+         done = 1
+       }
      }
-     print
+
+     print line
+
+     if (in_comment) {
+       if ($0 ~ /-->/) {
+         in_comment = 0
+       }
+     } else if ($0 ~ /<!--/ && $0 !~ /-->/) {
+       in_comment = 1
+     }
    }
  ' "${file}" > "${tmp}"
  mv "${tmp}" "${file}"
