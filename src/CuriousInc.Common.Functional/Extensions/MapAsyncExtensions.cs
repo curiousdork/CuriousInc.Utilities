@@ -22,6 +22,28 @@ public static class MapAsyncExtensions
         return mapper(value, ct);
     }
 
+    [OverloadResolutionPriority(-2)]
+    public static Task<TResult> MapAsync<T, TResult>(
+        this T value,
+        Func<T, CancellationToken, TResult> mapper,
+        CancellationToken? cancellationToken = null)
+    {
+        var ct = ResolveToken(cancellationToken);
+        ct.ThrowIfCancellationRequested();
+        return Task.FromResult(mapper(value, ct));
+    }
+
+    [OverloadResolutionPriority(-2)]
+    public static Task<TResult> MapAsync<T, TResult>(
+        this T value,
+        Func<T, TResult> mapper,
+        CancellationToken? cancellationToken = null)
+    {
+        var ct = ResolveToken(cancellationToken);
+        ct.ThrowIfCancellationRequested();
+        return Task.FromResult(mapper(value));
+    }
+
     [OverloadResolutionPriority(-1)]
     public static async Task<TResult> MapAsync<T, TResult>(
         this Task<T> task,
@@ -34,6 +56,30 @@ public static class MapAsyncExtensions
         return await mapper(value, ct).ConfigureAwait(false);
     }
 
+    [OverloadResolutionPriority(-2)]
+    public static async Task<TResult> MapAsync<T, TResult>(
+        this Task<T> task,
+        Func<T, CancellationToken, TResult> mapper,
+        CancellationToken? cancellationToken = null)
+    {
+        var ct = ResolveToken(cancellationToken);
+        ct.ThrowIfCancellationRequested();
+        var value = await task.ConfigureAwait(false);
+        return mapper(value, ct);
+    }
+
+    [OverloadResolutionPriority(-2)]
+    public static async Task<TResult> MapAsync<T, TResult>(
+        this Task<T> task,
+        Func<T, TResult> mapper,
+        CancellationToken? cancellationToken = null)
+    {
+        var ct = ResolveToken(cancellationToken);
+        ct.ThrowIfCancellationRequested();
+        var value = await task.ConfigureAwait(false);
+        return mapper(value);
+    }
+
     [OverloadResolutionPriority(-1)]
     public static async ValueTask<TResult> MapAsync<T, TResult>(
         this ValueTask<T> task,
@@ -44,6 +90,30 @@ public static class MapAsyncExtensions
         ct.ThrowIfCancellationRequested();
         var value = await task.ConfigureAwait(false);
         return await mapper(value, ct).ConfigureAwait(false);
+    }
+
+    [OverloadResolutionPriority(-2)]
+    public static async ValueTask<TResult> MapAsync<T, TResult>(
+        this ValueTask<T> task,
+        Func<T, CancellationToken, TResult> mapper,
+        CancellationToken? cancellationToken = null)
+    {
+        var ct = ResolveToken(cancellationToken);
+        ct.ThrowIfCancellationRequested();
+        var value = await task.ConfigureAwait(false);
+        return mapper(value, ct);
+    }
+
+    [OverloadResolutionPriority(-2)]
+    public static async ValueTask<TResult> MapAsync<T, TResult>(
+        this ValueTask<T> task,
+        Func<T, TResult> mapper,
+        CancellationToken? cancellationToken = null)
+    {
+        var ct = ResolveToken(cancellationToken);
+        ct.ThrowIfCancellationRequested();
+        var value = await task.ConfigureAwait(false);
+        return mapper(value);
     }
 
     public static async IAsyncEnumerable<TResult> MapAsync<T, TResult>(

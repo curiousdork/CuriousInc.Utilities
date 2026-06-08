@@ -270,4 +270,217 @@ public class MonadAsyncExtensionsTests
                 ct => Task.FromResult(0),
                 cts.Token));
     }
+
+    // Sync mapper overloads — MapAsync on Task<T>
+
+    [Fact]
+    public async Task MapAsync_TaskT_SyncMapperWithCt_ReturnsTransformedValue()
+    {
+        var task = Task.FromResult(5);
+
+        var result = await task.MapAsync((value, _) => value * 2);
+
+        Assert.Equal(10, result);
+    }
+
+    [Fact]
+    public async Task MapAsync_TaskT_SyncMapperWithCt_PassesCancellationToken()
+    {
+        using var cts = new CancellationTokenSource();
+        var task = Task.FromResult(3);
+
+        var result = await task.MapAsync(
+            (value, ct) =>
+            {
+                Assert.Equal(cts.Token, ct);
+                return value * 4;
+            },
+            cts.Token);
+
+        Assert.Equal(12, result);
+    }
+
+    [Fact]
+    public async Task MapAsync_TaskT_SyncMapperWithCt_CancelledToken_Throws()
+    {
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            Task.FromResult(1).MapAsync((value, _) => value, cts.Token));
+    }
+
+    [Fact]
+    public async Task MapAsync_TaskT_SyncMapperNoCt_ReturnsTransformedValue()
+    {
+        var task = Task.FromResult(7);
+
+        var result = await task.MapAsync(value => value + 1);
+
+        Assert.Equal(8, result);
+    }
+
+    [Fact]
+    public async Task MapAsync_PlainValue_SyncMapperWithCt_ReturnsTransformedValue()
+    {
+        var result = await 6.MapAsync((value, _) => value * 3);
+
+        Assert.Equal(18, result);
+    }
+
+    [Fact]
+    public async Task MapAsync_PlainValue_SyncMapperNoCt_ReturnsTransformedValue()
+    {
+        var result = await 4.MapAsync(value => value - 1);
+
+        Assert.Equal(3, result);
+    }
+
+    [Fact]
+    public async Task MapAsync_ValueTaskT_SyncMapperWithCt_ReturnsTransformedValue()
+    {
+        ValueTask<int> task = new(5);
+
+        var result = await task.MapAsync((value, _) => value * 2);
+
+        Assert.Equal(10, result);
+    }
+
+    [Fact]
+    public async Task MapAsync_ValueTaskT_SyncMapperNoCt_ReturnsTransformedValue()
+    {
+        ValueTask<int> task = new(9);
+
+        var result = await task.MapAsync(value => value + 1);
+
+        Assert.Equal(10, result);
+    }
+
+    // Mixed MatchAsync overloads — CT-aware some, parameterless none
+
+    [Fact]
+    public async Task OptionMatchAsync_CtAwareSome_AsyncNoneNoCt_SomeBranch()
+    {
+        Option<int> option = 5;
+
+        var result = await option.MatchAsync(
+            some: (value, _) => Task.FromResult(value * 2),
+            none: () => Task.FromResult(0));
+
+        Assert.Equal(10, result);
+    }
+
+    [Fact]
+    public async Task OptionMatchAsync_CtAwareSome_AsyncNoneNoCt_NoneBranch()
+    {
+        Option<int> option = Option<int>.None;
+
+        var result = await option.MatchAsync(
+            some: (value, _) => Task.FromResult(value * 2),
+            none: () => Task.FromResult(-1));
+
+        Assert.Equal(-1, result);
+    }
+
+    [Fact]
+    public async Task OptionMatchAsync_CtAwareSome_SyncNone_SomeBranch()
+    {
+        Option<int> option = 5;
+
+        var result = await option.MatchAsync(
+            some: (value, _) => Task.FromResult(value * 2),
+            none: () => 0);
+
+        Assert.Equal(10, result);
+    }
+
+    [Fact]
+    public async Task OptionMatchAsync_CtAwareSome_SyncNone_NoneBranch()
+    {
+        Option<int> option = Option<int>.None;
+
+        var result = await option.MatchAsync(
+            some: (value, _) => Task.FromResult(value * 2),
+            none: () => -1);
+
+        Assert.Equal(-1, result);
+    }
+
+    [Fact]
+    public async Task OptionMatchAsync_AsyncSome_SyncNone_SomeBranch()
+    {
+        Option<int> option = 5;
+
+        var result = await option.MatchAsync(
+            some: value => Task.FromResult(value * 2),
+            none: () => 0);
+
+        Assert.Equal(10, result);
+    }
+
+    [Fact]
+    public async Task OptionMatchAsync_AsyncSome_SyncNone_NoneBranch()
+    {
+        Option<int> option = Option<int>.None;
+
+        var result = await option.MatchAsync(
+            some: value => Task.FromResult(value * 2),
+            none: () => -1);
+
+        Assert.Equal(-1, result);
+    }
+
+    [Fact]
+    public async Task OptionMatchAsync_CtAwareSome_SyncNone_PassesCancellationToken()
+    {
+        Option<int> option = 3;
+        using var cts = new CancellationTokenSource();
+
+        var result = await option.MatchAsync(
+            some: (value, ct) =>
+            {
+                Assert.Equal(cts.Token, ct);
+                return Task.FromResult(value);
+            },
+            none: () => 0,
+            cts.Token);
+
+        Assert.Equal(3, result);
+    }
+
+    [Fact]
+    public async Task TaskOptionMatchAsync_CtAwareSome_AsyncNoneNoCt_SomeBranch()
+    {
+        Task<Option<int>> optionTask = Task.FromResult<Option<int>>(5);
+
+        var result = await optionTask.MatchAsync(
+            some: (value, _) => Task.FromResult(value * 2),
+            none: () => Task.FromResult(0));
+
+        Assert.Equal(10, result);
+    }
+
+    [Fact]
+    public async Task TaskOptionMatchAsync_CtAwareSome_SyncNone_NoneBranch()
+    {
+        Task<Option<int>> optionTask = Task.FromResult(Option<int>.None);
+
+        var result = await optionTask.MatchAsync(
+            some: (value, _) => Task.FromResult(value * 2),
+            none: () => -1);
+
+        Assert.Equal(-1, result);
+    }
+
+    [Fact]
+    public async Task TaskOptionMatchAsync_AsyncSome_SyncNone_SomeBranch()
+    {
+        Task<Option<int>> optionTask = Task.FromResult<Option<int>>(7);
+
+        var result = await optionTask.MatchAsync(
+            some: value => Task.FromResult(value + 1),
+            none: () => 0);
+
+        Assert.Equal(8, result);
+    }
 }

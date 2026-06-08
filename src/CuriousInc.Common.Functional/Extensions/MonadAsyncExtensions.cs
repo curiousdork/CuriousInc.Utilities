@@ -23,6 +23,16 @@ public static class MonadAsyncExtensions
 
     public static Task<TResult> MatchAsync<T, TResult>(
         this Option<T> option,
+        Func<T, Task<TResult>> some,
+        Func<TResult> none,
+        CancellationToken? cancellationToken = null) =>
+        option.MatchAsync(
+            (value, _) => some(value),
+            _ => Task.FromResult(none()),
+            cancellationToken);
+
+    public static Task<TResult> MatchAsync<T, TResult>(
+        this Option<T> option,
         Func<T, CancellationToken, Task<TResult>> some,
         Func<CancellationToken, Task<TResult>> none,
         CancellationToken? cancellationToken = null)
@@ -35,6 +45,20 @@ public static class MonadAsyncExtensions
     }
 
     public static Task<TResult> MatchAsync<T, TResult>(
+        this Option<T> option,
+        Func<T, CancellationToken, Task<TResult>> some,
+        Func<Task<TResult>> none,
+        CancellationToken? cancellationToken = null) =>
+        option.MatchAsync(some, _ => none(), cancellationToken);
+
+    public static Task<TResult> MatchAsync<T, TResult>(
+        this Option<T> option,
+        Func<T, CancellationToken, Task<TResult>> some,
+        Func<TResult> none,
+        CancellationToken? cancellationToken = null) =>
+        option.MatchAsync(some, _ => Task.FromResult(none()), cancellationToken);
+
+    public static Task<TResult> MatchAsync<T, TResult>(
         this Task<Option<T>> optionTask,
         Func<T, Task<TResult>> some,
         Func<Task<TResult>> none,
@@ -42,6 +66,16 @@ public static class MonadAsyncExtensions
         optionTask.MatchAsync(
             (value, _) => some(value),
             _ => none(),
+            cancellationToken);
+
+    public static Task<TResult> MatchAsync<T, TResult>(
+        this Task<Option<T>> optionTask,
+        Func<T, Task<TResult>> some,
+        Func<TResult> none,
+        CancellationToken? cancellationToken = null) =>
+        optionTask.MatchAsync(
+            (value, _) => some(value),
+            _ => Task.FromResult(none()),
             cancellationToken);
 
     public static async Task<TResult> MatchAsync<T, TResult>(
@@ -55,6 +89,20 @@ public static class MonadAsyncExtensions
         var option = await optionTask.ConfigureAwait(false);
         return await option.MatchAsync(some, none, ct).ConfigureAwait(false);
     }
+
+    public static Task<TResult> MatchAsync<T, TResult>(
+        this Task<Option<T>> optionTask,
+        Func<T, CancellationToken, Task<TResult>> some,
+        Func<Task<TResult>> none,
+        CancellationToken? cancellationToken = null) =>
+        optionTask.MatchAsync(some, _ => none(), cancellationToken);
+
+    public static Task<TResult> MatchAsync<T, TResult>(
+        this Task<Option<T>> optionTask,
+        Func<T, CancellationToken, Task<TResult>> some,
+        Func<TResult> none,
+        CancellationToken? cancellationToken = null) =>
+        optionTask.MatchAsync(some, _ => Task.FromResult(none()), cancellationToken);
 
     public static Task<Option<TResult>> BindAsync<T, TResult>(
         this Option<T> option,
