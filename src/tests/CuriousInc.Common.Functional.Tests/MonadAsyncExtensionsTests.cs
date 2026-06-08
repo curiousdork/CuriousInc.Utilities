@@ -68,6 +68,14 @@ public class MonadAsyncExtensionsTests
     }
 
     [Fact]
+    public async Task MapAsync_MapsValueType()
+    {
+        var result = await 5.MapAsync((value, ct) => Task.FromResult(value * 2));
+
+        Assert.Equal(10, result);
+    }
+
+    [Fact]
     public async Task MapAsync_MapsAsyncEnumerable()
     {
         IEnumerable<int> values = new[] { 1, 2, 3 };
