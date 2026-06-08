@@ -34,7 +34,7 @@ public class MonadAsyncExtensionsTests
         IEnumerable<int> values = new[] { 1, 2, 3 };
         var results = new List<int>();
 
-        await foreach (var item in ToAsyncExtensions.ToAsync(values, CancellationToken.None))
+        await foreach (var item in values.ToAsyncEnumerable(CancellationToken.None))
         {
             results.Add(item);
         }
@@ -51,10 +51,47 @@ public class MonadAsyncExtensionsTests
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
         {
-            await foreach (var _ in ToAsyncExtensions.ToAsync(values, cts.Token))
+            await foreach (var _ in values.ToAsyncEnumerable(cts.Token))
             {
             }
         });
+    }
+
+    [Fact]
+    public async Task MapAsync_MapsPlainValue()
+    {
+        var request = new RequestOtp();
+
+        var result = await request.MapAsync((_, ct) => Task.FromResult("otp"));
+
+        Assert.Equal("otp", result);
+    }
+
+    [Fact]
+    public async Task MapAsync_MapsAsyncEnumerable()
+    {
+        IEnumerable<int> values = new[] { 1, 2, 3 };
+        var results = new List<int>();
+
+        await foreach (var item in values
+                           .ToAsyncEnumerable(TestContext.Current.CancellationToken)
+                           .MapAsync((value, ct) => Task.FromResult(value * 2))
+                           .WithCancellation(TestContext.Current.CancellationToken))
+        {
+            results.Add(item);
+        }
+
+        Assert.Equal(new[] { 2, 4, 6 }, results);
+    }
+
+    [Fact]
+    public async Task ApplyAsync_MapsPlainValueWithCancellationToken()
+    {
+        var request = new RequestOtp();
+
+        var result = await request.ApplyAsync((_, ct) => Task.FromResult("otp"));
+
+        Assert.Equal("otp", result);
     }
 
     [Fact]
@@ -181,6 +218,17 @@ public class MonadAsyncExtensionsTests
 
         Assert.True(result.TryGetValue(out int updated));
         Assert.Equal(6, updated);
+    }
+
+    [Fact]
+    public async Task UnionMapAsync_TransformsSelectedBranchOnly()
+    {
+        Union<int, string> union = 5;
+
+        var result = await union.MapAsync((int value) => Task.FromResult<Union<int, string>>(value + 2));
+
+        Assert.True(result.TryGetValue(out int updated));
+        Assert.Equal(7, updated);
     }
 
     [Fact]

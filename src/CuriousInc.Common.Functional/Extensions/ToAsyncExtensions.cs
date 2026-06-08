@@ -23,7 +23,7 @@ public static class ToAsyncExtensions
     /// <param name="source">Source sequence.</param>
     /// <param name="cancellationToken">Optional token used while iterating source.</param>
     /// <returns>Async sequence that yields items from <paramref name="source"/>.</returns>
-    public static async IAsyncEnumerable<T> ToAsync<T>(
+    public static async IAsyncEnumerable<T> ToAsyncEnumerable<T>(
         this IEnumerable<T> source,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {

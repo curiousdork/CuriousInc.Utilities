@@ -503,6 +503,30 @@ public static class MonadAsyncExtensions
         return await union.MatchAsync(func1, func2, ct).ConfigureAwait(false);
     }
 
+    public static Task<Union<T1, T2>> MapAsync<T1, T2>(
+        this Union<T1, T2> union,
+        Func<T1, Task<Union<T1, T2>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2>> MapAsync<T1, T2>(
+        this Union<T1, T2> union,
+        Func<T1, CancellationToken, Task<Union<T1, T2>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2>> MapAsync<T1, T2>(
+        this Union<T1, T2> union,
+        Func<T2, Task<Union<T1, T2>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2>> MapAsync<T1, T2>(
+        this Union<T1, T2> union,
+        Func<T2, CancellationToken, Task<Union<T1, T2>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
     public static Task<Union<T1, T2>> ApplyUnionAsync<T1, T2>(
         this Union<T1, T2> union,
         Func<T1, Task<Union<T1, T2>>> functor,
@@ -590,6 +614,42 @@ public static class MonadAsyncExtensions
         var union = await unionTask.ConfigureAwait(false);
         return await union.MatchAsync(func1, func2, func3, ct).ConfigureAwait(false);
     }
+
+    public static Task<Union<T1, T2, T3>> MapAsync<T1, T2, T3>(
+        this Union<T1, T2, T3> union,
+        Func<T1, Task<Union<T1, T2, T3>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3>> MapAsync<T1, T2, T3>(
+        this Union<T1, T2, T3> union,
+        Func<T1, CancellationToken, Task<Union<T1, T2, T3>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3>> MapAsync<T1, T2, T3>(
+        this Union<T1, T2, T3> union,
+        Func<T2, Task<Union<T1, T2, T3>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3>> MapAsync<T1, T2, T3>(
+        this Union<T1, T2, T3> union,
+        Func<T2, CancellationToken, Task<Union<T1, T2, T3>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3>> MapAsync<T1, T2, T3>(
+        this Union<T1, T2, T3> union,
+        Func<T3, Task<Union<T1, T2, T3>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3>> MapAsync<T1, T2, T3>(
+        this Union<T1, T2, T3> union,
+        Func<T3, CancellationToken, Task<Union<T1, T2, T3>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
 
     public static Task<Union<T1, T2, T3>> ApplyUnionAsync<T1, T2, T3>(
         this Union<T1, T2, T3> union,
@@ -706,6 +766,54 @@ public static class MonadAsyncExtensions
         var union = await unionTask.ConfigureAwait(false);
         return await union.MatchAsync(func1, func2, func3, func4, ct).ConfigureAwait(false);
     }
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T1, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T1, CancellationToken, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T2, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T2, CancellationToken, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T3, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T3, CancellationToken, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T4, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4>> MapAsync<T1, T2, T3, T4>(
+        this Union<T1, T2, T3, T4> union,
+        Func<T4, CancellationToken, Task<Union<T1, T2, T3, T4>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
 
     public static Task<Union<T1, T2, T3, T4>> ApplyUnionAsync<T1, T2, T3, T4>(
         this Union<T1, T2, T3, T4> union,
@@ -852,6 +960,66 @@ public static class MonadAsyncExtensions
         var union = await unionTask.ConfigureAwait(false);
         return await union.MatchAsync(func1, func2, func3, func4, func5, ct).ConfigureAwait(false);
     }
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T1, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T1, CancellationToken, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T2, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T2, CancellationToken, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T3, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T3, CancellationToken, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T4, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T4, CancellationToken, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T5, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5>> MapAsync<T1, T2, T3, T4, T5>(
+        this Union<T1, T2, T3, T4, T5> union,
+        Func<T5, CancellationToken, Task<Union<T1, T2, T3, T4, T5>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
 
     public static Task<Union<T1, T2, T3, T4, T5>> ApplyUnionAsync<T1, T2, T3, T4, T5>(
         this Union<T1, T2, T3, T4, T5> union,
@@ -1030,6 +1198,78 @@ public static class MonadAsyncExtensions
         var union = await unionTask.ConfigureAwait(false);
         return await union.MatchAsync(func1, func2, func3, func4, func5, func6, ct).ConfigureAwait(false);
     }
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T1, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T1, CancellationToken, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T2, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T2, CancellationToken, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T3, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T3, CancellationToken, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T4, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T4, CancellationToken, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T5, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T5, CancellationToken, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T6, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
+
+    public static Task<Union<T1, T2, T3, T4, T5, T6>> MapAsync<T1, T2, T3, T4, T5, T6>(
+        this Union<T1, T2, T3, T4, T5, T6> union,
+        Func<T6, CancellationToken, Task<Union<T1, T2, T3, T4, T5, T6>>> mapper,
+        CancellationToken? cancellationToken = null) =>
+        union.ApplyUnionAsync(mapper, cancellationToken);
 
     public static Task<Union<T1, T2, T3, T4, T5, T6>> ApplyUnionAsync<T1, T2, T3, T4, T5, T6>(
         this Union<T1, T2, T3, T4, T5, T6> union,
