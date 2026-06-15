@@ -9,5 +9,16 @@
     <Project Path="src/CuriousInc.Utilities.Source.Generators\CuriousInc.Utilities.Source.Generators.csproj" />
     <Project Path="src/CuriousInc.Common.Functional/CuriousInc.Common.Functional.csproj" />
   </Folder>
-  <Project Path="src/tests/CuriousInc.Common.Functional.Tests/CuriousInc.Common.Functional.Tests.csproj" />
+  <Folder Name="/v2/">
+    <Project Path="src/v2/src/Curious.Functional.AspNet/Curious.Functional.AspNet.csproj" />
+    <Project Path="src/v2/src/Curious.Functional.EntityFramework/Curious.Functional.EntityFramework.csproj" />
+    <Project Path="src/v2/src/Curious.Functional/Curious.Functional.csproj" />
+    <Project Path="src/v2/src/Curious.SourceGenerator.Attributes/Curious.SourceGenerator.Attributes.csproj" />
+    <Project Path="src/v2/src/Curious.SourceGenerators/Curious.SourceGenerators.Tests/Curious.SourceGenerators.Tests.csproj" />
+    <Project Path="src/v2/src/Curious.SourceGenerators/Curious.SourceGenerators/Curious.SourceGenerators.csproj" />
+  </Folder>
+  <Folder Name="/v2/Tests/">
+    <Project Path="src/v2/src/Curious.SourceGenerators/Curious.SourceGenerators.Sample/Curious.SourceGenerators.Sample.csproj" />
+    <Project Path="src/v2/src/tests/Curious.Functional.Tests/Curious.Functional.Tests.csproj" />
+  </Folder>
 </Solution>
