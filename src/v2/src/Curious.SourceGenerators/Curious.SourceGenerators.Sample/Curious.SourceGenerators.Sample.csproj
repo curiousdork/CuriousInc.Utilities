@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Curious.SourceGenerators\Curious.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\Curious.SourceGenerators.AspNet\Curious.SourceGenerators.AspNet.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
         <ProjectReference Include="..\..\Curious.SourceGenerator.Attributes\Curious.SourceGenerator.Attributes.csproj"/>
     </ItemGroup>
 

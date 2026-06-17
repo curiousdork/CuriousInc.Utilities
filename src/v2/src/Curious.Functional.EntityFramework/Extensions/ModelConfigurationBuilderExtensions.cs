@@ -29,34 +29,4 @@ public static class ModelConfigurationBuilderExtensions
         builder.Properties<Option<T>>().HaveConversion<OptionNullableConverter<T>>();
         return builder;
     }
-
-    /// <summary>
-    /// Globally registers <see cref="EitherConverter{L,R}"/> (with default JSON options) for all
-    /// <see cref="Either{L,R}"/> properties of the given type arguments. Call once per L/R combination
-    /// from <c>ConfigureConventions</c>. For custom <c>JsonSerializerOptions</c>, configure via
-    /// <see cref="PropertyBuilderExtensions.HasEitherConversion{L,R}"/> per property instead.
-    /// </summary>
-    public static ModelConfigurationBuilder UseEitherConversion<L, R>(
-        this ModelConfigurationBuilder builder)
-        where L : notnull
-        where R : notnull
-    {
-        builder.Properties<Either<L, R>>().HaveConversion<EitherConverter<L, R>>();
-        return builder;
-    }
-
-    /// <summary>
-    /// Globally registers <see cref="ResultConverter{T}"/> (with default JSON options) for all
-    /// <see cref="Result{T}"/> properties of the given type argument. Call once per T from
-    /// <c>ConfigureConventions</c>. For custom <c>JsonSerializerOptions</c> (required when Error
-    /// subtypes need polymorphic deserialization), configure via
-    /// <see cref="PropertyBuilderExtensions.HasResultConversion{T}"/> per property instead.
-    /// </summary>
-    public static ModelConfigurationBuilder UseResultConversion<T>(
-        this ModelConfigurationBuilder builder)
-        where T : notnull
-    {
-        builder.Properties<Result<T>>().HaveConversion<ResultConverter<T>>();
-        return builder;
-    }
 }

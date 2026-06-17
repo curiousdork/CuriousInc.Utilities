@@ -1,6 +1,5 @@
+using Curious.Functional.AspNet.ExceptionHandling;
 using Curious.Functional.AspNet.Http;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,33 +46,21 @@ public static class HttpErrorServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers an <see cref="IExceptionHandler"/> that maps any exception whose
-    /// <see cref="Exception.Data"/> contains an <see cref="HttpError"/> under the key <c>"HttpError"</c>
-    /// to a <see cref="ProblemDetails"/> response.
+    /// Registers the <see cref="GlobalExceptionHandler"/> which catches every unhandled exception and
+    /// maps it to a <see cref="ProblemDetails"/> response. Three cases are handled in priority order:
+    /// <list type="number">
+    ///   <item><see cref="Exceptions.HttpErrorException"/> — typed HTTP errors thrown directly.</item>
+    ///   <item>Any exception whose <c>Data["HttpError"]</c> is an <see cref="HttpError"/>.</item>
+    ///   <item>All other exceptions — mapped to 500 Internal Server Error and logged at <c>Error</c> level.</item>
+    /// </list>
+    /// <para>
+    /// Requires <c>app.UseExceptionHandler()</c> in the middleware pipeline.
+    /// </para>
     /// </summary>
     public static IServiceCollection AddCuriousExceptionHandler(this IServiceCollection services)
     {
-        services.AddExceptionHandler<HttpErrorExceptionHandler>();
+        services.AddProblemDetails();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
         return services;
-    }
-}
-
-file sealed class HttpErrorExceptionHandler : IExceptionHandler
-{
-    public async ValueTask<bool> TryHandleAsync(
-        HttpContext httpContext,
-        Exception exception,
-        CancellationToken cancellationToken)
-    {
-        if (exception.Data["HttpError"] is not HttpError error)
-            return false;
-
-        var pd = error.ToProblemDetails();
-
-        httpContext.Response.StatusCode  = pd.Status ?? StatusCodes.Status500InternalServerError;
-        httpContext.Response.ContentType = "application/problem+json";
-
-        await httpContext.Response.WriteAsJsonAsync(pd, cancellationToken);
-        return true;
     }
 }

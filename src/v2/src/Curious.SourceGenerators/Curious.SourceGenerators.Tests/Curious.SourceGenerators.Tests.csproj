@@ -21,6 +21,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Curious.SourceGenerators\Curious.SourceGenerators.csproj"/>
+        <ProjectReference Include="..\Curious.SourceGenerators.AspNet\Curious.SourceGenerators.AspNet.csproj"/>
     </ItemGroup>
 
 

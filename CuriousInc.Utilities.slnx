@@ -14,6 +14,7 @@
     <Project Path="src/v2/src/Curious.Functional.EntityFramework/Curious.Functional.EntityFramework.csproj" />
     <Project Path="src/v2/src/Curious.Functional/Curious.Functional.csproj" />
     <Project Path="src/v2/src/Curious.SourceGenerator.Attributes/Curious.SourceGenerator.Attributes.csproj" />
+    <Project Path="src/v2/src/Curious.SourceGenerators/Curious.SourceGenerators.AspNet/Curious.SourceGenerators.AspNet.csproj" />
     <Project Path="src/v2/src/Curious.SourceGenerators/Curious.SourceGenerators.Tests/Curious.SourceGenerators.Tests.csproj" />
     <Project Path="src/v2/src/Curious.SourceGenerators/Curious.SourceGenerators/Curious.SourceGenerators.csproj" />
   </Folder>
